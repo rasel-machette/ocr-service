@@ -17,6 +17,8 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -94,7 +96,7 @@ public class DigitalService {
         	UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url+"folders")
  	                .queryParam("name", classif)
  	                .queryParam("parent", classifications.get(0).getPath());
- 		    
+        	
  		    restTemplate = new RestTemplate();
  	        headers = new HttpHeaders();
  	        headers.setContentType(MediaType.APPLICATION_JSON);
@@ -108,6 +110,7 @@ public class DigitalService {
  	        classification.setPath(folder.getId());
  	        classificationRepository.save(classification);
  	        path = folder.getId();
+ 	      
         }
         else
         	path = classifications.get(0).getPath();
@@ -132,7 +135,8 @@ public class DigitalService {
         	data.add("file", resource);
         	data.add("mime", "application/pdf");
         	data.add("parent", path);
-
+        	
+        	
         	HttpHeaders requestHeaders = new HttpHeaders();
         	requestHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
 
@@ -150,6 +154,7 @@ public class DigitalService {
 
             //resp.setResultados_request(rl);
         //}
+        	
 		return errorSaved;
     }
     
@@ -479,4 +484,5 @@ public class DigitalService {
     	}
 		return d;
     }
+      
 }

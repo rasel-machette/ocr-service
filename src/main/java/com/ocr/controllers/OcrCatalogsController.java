@@ -180,8 +180,6 @@ public class OcrCatalogsController {
 		return new ResponseEntity<List<Business>>(resp, HttpStatus.OK);
 	}
 
-	// ........................................Insert...............................
-
 	@PostMapping(path = "/catalog/category", params = "business", consumes = "application/json", produces = "application/json")
 
 	public ResponseEntity<List<InvoiceCategoryCatalog>> insertInvoiceCategoryCatalog(
@@ -454,19 +452,6 @@ public class OcrCatalogsController {
 		}
 	}
 
-	// ...................getMapping.........................
-
-	@GetMapping(value = "/catalog", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<InvoiceTypeCatalog>> getAllCatalogs() {
-		List<InvoiceTypeCatalog> list1 = new ArrayList();
-		list1 = this.invoiceTypeCatalogRepository.findAll();
-
-		return ResponseEntity.of(Optional.of(list1));
-
-	}
-
-	// ...........................update list..........................
-
 	@PutMapping(value = "/catalog/category", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<InvoiceCategoryCatalog>> updateInvoiceCategoryCatalog(
 			@Validated @RequestBody List<InvoiceCategoryCatalog> invoiceCategoryCatalog)
@@ -675,8 +660,6 @@ public class OcrCatalogsController {
 
 		}
 	}
-
-	// ..............................Delete List........................
 
 	@DeleteMapping(value = "/catalog/category", consumes = "application/json", produces = "application/json")
 

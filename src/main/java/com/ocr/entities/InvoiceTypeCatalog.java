@@ -6,7 +6,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "invoice_type_catalog")
 public class InvoiceTypeCatalog {
 
 	@Id
