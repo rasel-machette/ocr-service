@@ -31,6 +31,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.ocr.client.moqui.ClientCatalogMapper;
+import com.ocr.client.moqui.MoquiClient;
+import com.ocr.client.moqui.MoquiInterface;
 import com.ocr.entities.BusinessCatalog;
 import com.ocr.entities.BusinessInfoCatalog;
 import com.ocr.entities.ClientCatalog;
@@ -88,6 +91,9 @@ public class OcrCatalogsController {
 	BusinessInfoCatalogRepository businessInfoCatalogRepository;
 	@Autowired
 	BusinessRepository businessRepository;
+	
+	@Autowired	
+	MoquiClient moquiClient;
 
 	@GetMapping(path = "/clients", produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
@@ -178,7 +184,12 @@ public class OcrCatalogsController {
 			resp = businessData;
 		}
 		return new ResponseEntity<List<Business>>(resp, HttpStatus.OK);
+
 	}
+	
+	
+
+//........................Moqui..........................................
 
 	@PostMapping(path = "/catalog/category", params = "business", consumes = "application/json", produces = "application/json")
 
@@ -186,15 +197,22 @@ public class OcrCatalogsController {
 			@RequestParam(required = true, value = "business") String business,
 			@RequestBody List<InvoiceCategoryCatalog> invoiceCategoryCatalog)
 			throws InvalidKeyException, IOException, ParseException {
+		
+		System.out.println("Hello");
 
 		LOGGER.info("Start process");
+		
 		try {
 
 			if (invoiceCategoryCatalog.size() <= 0) {
 				List<InvoiceCategoryCatalog> icc_list = invoiceCategoryCatalogRepository.findByowner("general");
 				for (InvoiceCategoryCatalog icc : icc_list) {
 					icc.setOwner(business);
+					String postdata = ClientCatalogMapper.mappClientCatalog(icc);
+					
 					invoiceCategoryCatalogRepository.save(icc);
+					moquiClient.invoiceCategoryCatalogSave(postdata);
+				
 				}
 
 			} else {
@@ -804,5 +822,7 @@ public class OcrCatalogsController {
 
 		}
 	}
+	
+	
 
 }

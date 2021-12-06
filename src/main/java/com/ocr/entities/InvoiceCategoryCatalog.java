@@ -10,16 +10,15 @@ import javax.persistence.Table;
 @Entity
 public class InvoiceCategoryCatalog {
 
+	@Id
+	// @GeneratedValue(strategy = GenerationType.AUTO)
+	private String id;
+	private String category;
+	private String owner;
 
- 	@Id
-    private String id;
-    private String category;
-    private String owner;
-    
-    public InvoiceCategoryCatalog() {
-    }
-    
-    
+	public InvoiceCategoryCatalog() {
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -27,8 +26,6 @@ public class InvoiceCategoryCatalog {
 	public void setId(String id) {
 		this.id = id;
 	}
-
-
 
 	public String getOwner() {
 		return owner;
@@ -45,8 +42,5 @@ public class InvoiceCategoryCatalog {
 	public void setCategory(String category) {
 		this.category = category;
 	}
-
-
-
 
 }
